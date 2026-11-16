@@ -1,0 +1,56 @@
+<!doctype html>
+<!--
+  GoLink STAGING invitation entry point (NOT the production site).
+  Intended host: https://staging.golinkapp.io/join#<token>
+  Do not deploy this file to golinkapp.io production.
+
+  Privacy: static page, no third-party scripts, analytics or cookies, no referrer.
+  The token lives in the URL fragment (never sent to the web server) and is only
+  handed to the staging app (golink-staging://join/<token>).
+
+  Post-install: Universal Links / automatic return after App Store install are NOT
+  claimed verified. Recipients who install GoLink Staging must open the original
+  SMS invitation again so this page can hand off to the app.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'sha256-QXhOEc0FN9Aq/+G7D/eML1LlDxJx2Zhz9lPVGE4PRSc='; img-src 'none'" />
+  <title>You're invited on GoLink Staging</title>
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 32px 24px; background: #0f172a; color: #f8fafc; }
+    main { max-width: 420px; margin: 0 auto; }
+    .badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #fde68a; margin-bottom: 12px; }
+    h1 { font-size: 26px; margin: 0 0 12px; }
+    p { color: #cbd5e1; line-height: 1.5; }
+    a.button { display: block; text-align: center; padding: 14px; border-radius: 14px; margin-top: 16px; text-decoration: none; font-weight: 600; }
+    a.primary { background: #0f766e; color: #fff; }
+    a.secondary { border: 1px solid #334155; color: #f8fafc; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="badge">STAGING</div>
+    <h1>You're invited on GoLink</h1>
+    <p id="valid">Someone invited you to make plans together. Open GoLink Staging to see the invitation. You'll sign in or create an account first.</p>
+    <p id="invalid" class="hidden">This invitation link looks incomplete. Ask the person who invited you to send it again.</p>
+    <a id="open" class="button primary hidden" href="#">Open in GoLink Staging</a>
+    <a class="button secondary" href="#" id="install" rel="noreferrer noopener">Get the staging build from TestFlight / internal link</a>
+    <p>Just installed GoLink Staging? Come back to your text and tap the invitation link again. Automatic return after install is not verified yet.</p>
+  </main>
+  <script>
+    (function () {
+      var token = decodeURIComponent((location.hash || '').slice(1)).toLowerCase();
+      var ok = /^[0-9a-f]{64}$/.test(token);
+      document.getElementById(ok ? 'open' : 'invalid').classList.remove('hidden');
+      if (!ok) { document.getElementById('valid').classList.add('hidden'); return; }
+      document.getElementById('open').setAttribute('href', 'golink-staging://join/' + token);
+      history.replaceState(null, '', location.pathname);
+    })();
+  </script>
+</body>
+</html>
