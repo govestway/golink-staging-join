@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "NU4696YQW6.com.govestway.golink.staging",
+        "paths": ["/join", "/join/*"]
+      }
+    ]
+  }
+}
